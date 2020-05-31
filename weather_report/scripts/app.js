@@ -2,7 +2,8 @@ const cityForm = document.querySelector('form');
 const card = document.querySelector('.card');
 const details = document.querySelector('.details');
 const time = document.querySelector('img.time');
-const icon = document.querySelector('.icon img')
+const icon = document.querySelector('.icon img');
+const forecast = new Forecast();
 
 const updateUI = (data) => {
 
@@ -11,7 +12,7 @@ const updateUI = (data) => {
 
     //destructure properties
     const { cityDets, weather } = data; 
-
+    console.log(cityDets)
     //update details template
     details.innerHTML = `
         <h5 class="my-3">${cityDets.EnglishName}</h5>
@@ -36,15 +37,7 @@ const updateUI = (data) => {
     }
 };
 
-const updateCity = async (city) => {
-    
-    const cityDets = await getCity(city);
-    const weather = await getWeather(cityDets.Key);
 
-    return { cityDets,weather }; 
-    //object shorthand notation (kalo property dan value punya nama sama ex (weather: weather))
-
-};
 
 cityForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -53,7 +46,7 @@ cityForm.addEventListener('submit', e => {
     cityForm.reset();
 
     //update the ui
-    updateCity(city)
+    forecast.updateCity(city)
         .then(data => updateUI(data))
         .catch(err => console.log(err))
         
@@ -63,7 +56,7 @@ cityForm.addEventListener('submit', e => {
 });
 
 if(localStorage.getItem('city')) {
-    updateCity(localStorage.getItem('city'))
+    forecast.updateCity(localStorage.getItem('city'))
         .then(data => updateUI(data))
         .catch(err => console.log(err))
 }
