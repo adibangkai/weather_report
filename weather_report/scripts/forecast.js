@@ -7,7 +7,6 @@ class Forecast{
     async updateCity(city){            
         const cityDets = await this.getCity(city);
         const weather = await this.getWeather(cityDets.Key);
-    //object shorthand notation (kalo property dan value punya nama sama ex (weather: weather))
         return { cityDets,weather }; 
     }
     async getCity(city){
